@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model cards {
+  id             Int     @id
+  userId         Int
+  title          String
+  number         String  @unique(map: "cards_number_unique")
+  cardholderName String
+  securityCode   String
+  expirationDate String
+  password       String
+  isVitual       Boolean
+  type           String  @db.VarChar(8)
+  users          users   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cards_userid_foreign")
+}
+
+model credentials {
+  id       Int    @id
+  userId   Int
+  title    String
+  url      String
+  name     String
+  password String
+  users    users  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "credentials_userid_foreign")
+}
+
+model secureNotes {
+  id         Int    @id
+  userId     Int
+  title      String @db.VarChar(50)
+  annotation String @db.VarChar(1000)
+  users      users  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "securenotes_userid_foreign")
+}
+
+model sessions {
+  id           Int      @id
+  userId       Int
+  token        String   @unique(map: "sessions_token_unique")
+  creationDate DateTime @default(now()) @db.Timestamp(0)
+  users        users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "sessions_userid_foreign")
+}
+
+model users {
+  id          Int           @id
+  email       String        @unique(map: "users_email_unique")
+  password    String
+  cards       cards[]
+  credentials credentials[]
+  secureNotes secureNotes[]
+  sessions    sessions[]
+  wifi        wifi[]
+}
+
+model wifi {
+  id       Int    @id
+  userId   Int
+  title    String
+  name     String
+  password String
+  users    users  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "wifi_userid_foreign")
+}

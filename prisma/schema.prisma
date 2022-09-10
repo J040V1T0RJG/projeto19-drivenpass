@@ -8,7 +8,7 @@ datasource db {
 }
 
 model cards {
-  id             Int     @id
+  id             Int     @id @default(autoincrement())
   userId         Int
   title          String
   number         String  @unique(map: "cards_number_unique")
@@ -22,7 +22,7 @@ model cards {
 }
 
 model credentials {
-  id       Int    @id
+  id       Int    @id @default(autoincrement())
   userId   Int
   title    String
   url      String
@@ -32,7 +32,7 @@ model credentials {
 }
 
 model secureNotes {
-  id         Int    @id
+  id         Int    @id @default(autoincrement())
   userId     Int
   title      String @db.VarChar(50)
   annotation String @db.VarChar(1000)
@@ -40,7 +40,7 @@ model secureNotes {
 }
 
 model sessions {
-  id           Int      @id
+  id           Int      @id @default(autoincrement())
   userId       Int
   token        String   @unique(map: "sessions_token_unique")
   creationDate DateTime @default(now()) @db.Timestamp(0)
@@ -48,7 +48,7 @@ model sessions {
 }
 
 model users {
-  id          Int           @id
+  id          Int           @id @default(autoincrement())
   email       String        @unique(map: "users_email_unique")
   password    String
   cards       cards[]
@@ -59,7 +59,7 @@ model users {
 }
 
 model wifi {
-  id       Int    @id
+  id       Int    @id @default(autoincrement())
   userId   Int
   title    String
   name     String

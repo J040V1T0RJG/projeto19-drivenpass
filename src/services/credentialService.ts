@@ -46,7 +46,20 @@ const getCredentials = async (credentialId: number | undefined, authorization: s
     return credentials;
 };
 
+const deleteCredential = async (credentialId: number, authorization: string | undefined) => {
+    const {id: userId} = await validateToken(authorization);
+
+    const { count } = await credentialRepository.deleteCredentialById(userId, credentialId);
+
+    if (count === 0) {
+        throw { code: "NotFound", message: "Credencial não existente e/ou pertencete a outro usuario" }
+    };
+
+    //console.log("deleted:", deleted)
+};
+
 export {
     createCredential,
-    getCredentials
+    getCredentials,
+    deleteCredential
 };

@@ -29,9 +29,19 @@ const getCredentialsById = async (userId: number, credentialId: number) => {
     });
 };
 
+const deleteCredentialById = async (userId: number, credentialId: number) => {
+    return await prisma.credentials.deleteMany({
+        where: {
+            AND: [
+                {userId}, {id: credentialId}
+            ]}
+    });
+}
+
 export {
     checkTitle,
     createCredential,
     getCredentials,
-    getCredentialsById
+    getCredentialsById,
+    deleteCredentialById
 };

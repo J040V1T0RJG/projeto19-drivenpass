@@ -19,7 +19,12 @@ const getCredentials = async (req: Request, res: Response) => {
 };
 
 const deleteCredential = async (req: Request, res: Response) => {
+    const credentialId  = Number(req.params.credentialId);
+    const { authorization } = req.headers;
 
+    await credentialService.deleteCredential(credentialId, authorization);
+
+    return res.sendStatus(200);
 };
 
 export {

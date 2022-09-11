@@ -29,9 +29,19 @@ const getSecureNotesById = async (userId: number, secureNotesId: number) => {
     });
 };
 
+const deleteSecureNotesById = async (userId: number, secureNotesId: number) => {
+    return await prisma.secureNotes.deleteMany({
+        where: {
+            AND: [
+                {userId}, {id: secureNotesId}
+            ]}
+    });
+};
+
 export {
     checkTitle,
     createSecureNotes,
     getSecureNotes,
-    getSecureNotesById
+    getSecureNotesById,
+    deleteSecureNotesById
 };

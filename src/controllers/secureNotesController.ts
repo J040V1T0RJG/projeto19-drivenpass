@@ -19,8 +19,10 @@ const getSecureNotes = async (req: Request, res: Response) => {
 };
 
 const deleteSecureNotes = async (req: Request, res: Response) => {
-    const credentialId  = Number(req.params.credentialId);
+    const secureNotesId  = Number(req.params.secureNotesId);
     const { authorization } = req.headers;
+
+    await secureNotesService.deleteSecureNotes(secureNotesId, authorization);
 
     return res.sendStatus(200);
 };

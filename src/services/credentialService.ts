@@ -54,8 +54,6 @@ const deleteCredential = async (credentialId: number, authorization: string | un
     if (count === 0) {
         throw { code: "NotFound", message: "Credencial não existente e/ou pertencete a outro usuario" }
     };
-
-    //console.log("deleted:", deleted)
 };
 
 export {

@@ -2,8 +2,11 @@ import { Request, Response } from "express";
 import * as userService from "../services/userService";
 
 const signIn = async (req: Request, res: Response) => {
+    const body = req.body;
 
-    res.sendStatus(202);
+    const token = await userService.signIn(body);
+
+    return res.status(202).send({token});
 };
 
 const signUp = async (req: Request, res: Response) => {
@@ -11,11 +14,10 @@ const signUp = async (req: Request, res: Response) => {
 
     await userService.signUp(body);
     
-    res.sendStatus(201);
+    return res.sendStatus(201);
 };
-
 
 export {
     signIn,
     signUp
-}
+};

@@ -41,7 +41,7 @@ model secureNotes {
 
 model sessions {
   id           Int      @id @default(autoincrement())
-  userId       Int
+  userId       Int      @unique(map: "sessions_userId_unique")
   token        String   @unique(map: "sessions_token_unique")
   creationDate DateTime @default(now()) @db.Timestamp(0)
   users        users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "sessions_userid_foreign")

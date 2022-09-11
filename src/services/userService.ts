@@ -24,7 +24,7 @@ const signIn = async (signIpData: IUserData) => {
         throw { code: "NotAcceptable", message: "Senha e/ou e-mail incorreto(s)" }
     };
 
-    const token: string = jwt.sign({email: email}, privateKey);
+    const token: string = jwt.sign({email: emailData.email, id: emailData.id}, privateKey);
 
     await userRepository.createOrUpdateToken({userId: emailData.id, token, creationDate}, emailData.id)
 

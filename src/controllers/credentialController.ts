@@ -10,7 +10,12 @@ const createCredential = async (req: Request, res: Response) => {
 };
 
 const getCredentials = async (req: Request, res: Response) => {
+    const credentialId = <number | undefined>Number(req.query.credentialId);
+    const { authorization } = req.headers;
 
+    const credentials = await credentialService.getCredentials(credentialId, authorization);
+
+    return res.status(200).send(credentials);
 };
 
 const deleteCredential = async (req: Request, res: Response) => {

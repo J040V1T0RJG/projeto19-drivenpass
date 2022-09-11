@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 import { CredentialData } from "../types/credentialTypes";
 import * as credentialRepository from "../repositores/credentialRepository";
+import { validateToken } from "../utils/validateToken";
 
 dotenv.config();
 
@@ -22,6 +23,30 @@ const createCredential = async (credentialData: CredentialData) => {
     await credentialRepository.createCredential(credentialData);
 };
 
+const getCredentials = async (credentialId: number | undefined, authorization: string | undefined) => {
+    const cryptr = new Cryptr(`${process.env.SECRET_PASSWORD}`);
+    const {id: userId} = await validateToken(authorization);
+
+    let credentials: any[];
+
+    if (credentialId) {
+        credentials = await credentialRepository.getCredentialsById(userId, credentialId);
+        if (credentials.length === 0) {
+            throw { code: "NotFound", message: "Credencial não existente e/ou pertencete a outro usuario" }
+        };
+    } else {
+        credentials = await credentialRepository.getCredentials(userId);
+    };
+
+    credentials.map((credential: any , index: number) => {
+        const descryptedPassword = cryptr.decrypt(credential.password);
+        credentials[index].password = descryptedPassword;
+    });
+
+    return credentials;
+};
+
 export {
-    createCredential
+    createCredential,
+    getCredentials
 };

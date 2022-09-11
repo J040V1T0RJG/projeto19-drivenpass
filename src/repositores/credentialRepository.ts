@@ -16,7 +16,22 @@ const createCredential = async (credential: CredentialData) => {
     await prisma.credentials.create({data: credential});
 };
 
+const getCredentials = async (userId: number) => {
+    return await prisma.credentials.findMany({where: {userId}});
+};
+
+const getCredentialsById = async (userId: number, credentialId: number) => {
+    return await prisma.credentials.findMany({
+        where: {
+            AND: [
+                {userId}, {id: credentialId}
+            ]}
+    });
+};
+
 export {
     checkTitle,
-    createCredential
+    createCredential,
+    getCredentials,
+    getCredentialsById
 };

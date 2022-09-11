@@ -3,8 +3,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 import * as userRepository from "../repositores/userRepository";
-import { IUserData, SessionData } from "../types/userTypes";
-//import { date, date, number } from "joi";
+import { IUserData } from "../types/userTypes";
 
 dotenv.config();
 
@@ -25,7 +24,7 @@ const signIn = async (signIpData: IUserData) => {
         throw { code: "NotAcceptable", message: "Senha e/ou e-mail incorreto(s)" }
     };
 
-    const token: string = jwt.sign({email: email}, privateKey);
+    const token: string = jwt.sign({email: emailData.email, id: emailData.id}, privateKey);
 
     await userRepository.createOrUpdateToken({userId: emailData.id, token, creationDate}, emailData.id)
 
@@ -45,7 +44,6 @@ const signUp = async (signUpData: IUserData) => {
     
     await userRepository.createUser({email, password: passwordEncrypt})
 };
-
 
 export {
     signIn,

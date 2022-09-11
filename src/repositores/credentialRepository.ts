@@ -36,7 +36,7 @@ const deleteCredentialById = async (userId: number, credentialId: number) => {
                 {userId}, {id: credentialId}
             ]}
     });
-}
+};
 
 export {
     checkTitle,

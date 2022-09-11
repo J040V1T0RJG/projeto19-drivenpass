@@ -39,6 +39,8 @@ model secureNotes {
   title      String @db.VarChar(50)
   annotation String @db.VarChar(1000)
   users      users  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "securenotes_userid_foreign")
+
+  @@unique([userId, title])
 }
 
 model sessions {

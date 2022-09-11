@@ -1,8 +1,9 @@
 import { SecureNotesType } from "../types/secureNotesTypes";
 import * as secureNotesRepository from "../repositores/secureNotesRepository";
+import { validateToken } from "../utils/validateToken";
 
 const createSecureNotes = async (secureNotesData: SecureNotesType) => {
-    const { userId, title, annotation } = secureNotesData;
+    const { userId, title } = secureNotesData;
 
     const titleData = await secureNotesRepository.checkTitle(userId, title);
 
@@ -13,6 +14,24 @@ const createSecureNotes = async (secureNotesData: SecureNotesType) => {
     await secureNotesRepository.createSecureNotes(secureNotesData);
 };
 
+const getSecureNotes = async (secureNotesId: number | undefined, authorization: string | undefined) => {
+    const {id: userId} = await validateToken(authorization);
+
+    let secureNotes;
+
+    if (secureNotesId) {
+        secureNotes = await secureNotesRepository.getSecureNotesById(userId, secureNotesId);
+        if (secureNotes.length === 0) {
+            throw { code: "NotFound", message: "Notas seguras não existente e/ou pertencete a outro usuario" }
+        };
+    } else {
+        secureNotes = await secureNotesRepository.getSecureNotes(userId);
+    };
+
+    return secureNotes;
+};
+
 export {
-    createSecureNotes
-}
+    createSecureNotes,
+    getSecureNotes
+};

@@ -10,10 +10,12 @@ const createSecureNotes = async (req: Request, res: Response) => {
 };
 
 const getSecureNotes = async (req: Request, res: Response) => {
-    const secureNotesId = <number | undefined>Number(req.query.credentialId);
+    const secureNotesId = <number | undefined>Number(req.query.secureNotesId);
     const { authorization } = req.headers;
 
-    return res.status(200).send("abobrinha");
+    const secureNotes = await secureNotesService.getSecureNotes(secureNotesId, authorization);
+
+    return res.status(200).send(secureNotes);
 };
 
 const deleteSecureNotes = async (req: Request, res: Response) => {

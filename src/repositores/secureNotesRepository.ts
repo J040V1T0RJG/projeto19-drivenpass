@@ -16,7 +16,22 @@ const createSecureNotes = async (secureNotes: SecureNotesType) => {
     await prisma.secureNotes.create({data: secureNotes});
 };
 
+const getSecureNotes = async (userId: number) => {
+    return await prisma.secureNotes.findMany({where: {userId}});
+};
+
+const getSecureNotesById = async (userId: number, secureNotesId: number) => {
+    return await prisma.secureNotes.findMany({
+        where: {
+            AND: [
+                {userId}, {id: secureNotesId}
+            ]}
+    });
+};
+
 export {
     checkTitle,
-    createSecureNotes
+    createSecureNotes,
+    getSecureNotes,
+    getSecureNotesById
 };

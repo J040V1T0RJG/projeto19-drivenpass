@@ -3,8 +3,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 import * as userRepository from "../repositores/userRepository";
-import { IUserData, SessionData } from "../types/userTypes";
-//import { date, date, number } from "joi";
+import { IUserData } from "../types/userTypes";
 
 dotenv.config();
 
@@ -45,7 +44,6 @@ const signUp = async (signUpData: IUserData) => {
     
     await userRepository.createUser({email, password: passwordEncrypt})
 };
-
 
 export {
     signIn,

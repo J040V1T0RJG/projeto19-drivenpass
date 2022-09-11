@@ -29,6 +29,8 @@ model credentials {
   name     String
   password String
   users    users  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "credentials_userid_foreign")
+  
+  @@unique([userId, title])
 }
 
 model secureNotes {

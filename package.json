@@ -4,7 +4,7 @@
   "description": "gerenciador de senhas",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && npx prisma migrate generate && npx prisma migrate deploy",
+    "build": "tsc && npx prisma migrate deploy",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

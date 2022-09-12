@@ -19,6 +19,8 @@ model cards {
   isVitual       Boolean
   type           String  @db.VarChar(8)
   users          users   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cards_userid_foreign")
+
+  @@unique([userId, title])
 }
 
 model credentials {

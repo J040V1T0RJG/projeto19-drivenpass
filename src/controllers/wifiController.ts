@@ -13,16 +13,16 @@ const getWifi = async (req: Request, res: Response) => {
     const wifiId = <number | undefined>Number(req.query.wifiId);
     const { authorization } = req.headers;
 
-    //const credentials = await credentialService.getCredentials(credentialId, authorization);
+    const wifi = await wifiService.getWifi(wifiId, authorization);
 
-    return res.status(200).send("wifi");
+    return res.status(200).send(wifi);
 };
 
 const deleteWifi = async (req: Request, res: Response) => {
     const wifiId  = Number(req.params.wifiId);
     const { authorization } = req.headers;
 
-    //await credentialService.deleteCredential(credentialId, authorization);
+    await wifiService.deleteWifi(wifiId, authorization);
 
     return res.sendStatus(200);
 };

@@ -13,9 +13,9 @@ const getCards = async (req: Request, res: Response) => {
     const cardId = <number | undefined>Number(req.query.cardId);
     const { authorization } = req.headers;
 
-    //const cards = await credentialService.getCredentials(credentialId, authorization);
+    const cards = await cardService.getCards(cardId, authorization);
 
-    return res.status(200).send("cards");
+    return res.status(200).send(cards);
 };
 
 const deleteCard = async (req: Request, res: Response) => {

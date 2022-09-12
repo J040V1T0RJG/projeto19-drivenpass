@@ -16,7 +16,22 @@ const createCard = async (card: CardType) => {
     await prisma.cards.create({data: card});
 };
 
+const getCards = async (userId: number) => {
+    return await prisma.cards.findMany({where: {userId}});
+};
+
+const getCardsById = async (userId: number, cardId: number) => {
+    return await prisma.cards.findMany({
+        where: {
+            AND: [
+                {userId}, {id: cardId}
+            ]}
+    });
+};
+
 export {
     checkTitle,
-    createCard
+    createCard,
+    getCards,
+    getCardsById
 };

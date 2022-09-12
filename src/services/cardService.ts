@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 import { CardType } from "../types/cardTypes";
 import * as cardRepository from "../repositores/cardRepository";
+import { validateToken } from "../utils/validateToken";
 
 dotenv.config();
 
@@ -25,6 +26,36 @@ const createCard = async (cardData: CardType) => {
     await cardRepository.createCard(cardData);
 };
 
+const getCards = async (cardId: number | undefined, authorization: string | undefined) => {
+    const cryptr = new Cryptr(`${process.env.SECRET_PASSWORD}`);
+    const {id: userId} = await validateToken(authorization);
+
+    let cards: any[];
+
+    if (cardId) {
+        cards = await cardRepository.getCardsById(userId, cardId);
+        if (cards.length === 0) {
+            throw { code: "NotFound", message: "Cartão não existente e/ou pertencente a outro usuario" }
+        };
+    } else {
+        cards = await cardRepository.getCards(userId);
+    };
+
+    cards.map((card: any, index: number) => {
+        const descryptedPassword = cryptr.decrypt(card.password);
+        const descryptedSecurityCode = cryptr.decrypt(card.securityCode);
+
+        cards[index].password = descryptedPassword;
+        cards[index].securityCode = descryptedSecurityCode;
+    });
+
+    return cards;
+};
+
+
+
+
 export {
-    createCard
+    createCard,
+    getCards
 };

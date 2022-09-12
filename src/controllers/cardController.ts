@@ -22,7 +22,7 @@ const deleteCard = async (req: Request, res: Response) => {
     const cardId  = Number(req.params.cardId);
     const { authorization } = req.headers;
 
-    //await credentialService.deleteCredential(credentialId, authorization);
+    await cardService.deleteCard(cardId, authorization);
 
     return res.sendStatus(200);
 };

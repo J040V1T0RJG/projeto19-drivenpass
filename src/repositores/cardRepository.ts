@@ -29,9 +29,19 @@ const getCardsById = async (userId: number, cardId: number) => {
     });
 };
 
+const deleteCardById = async (userId: number, cardId: number) => {
+    return await prisma.cards.deleteMany({
+        where: {
+            AND: [
+                {userId}, {id: cardId}
+            ]}
+    });
+};
+
 export {
     checkTitle,
     createCard,
     getCards,
-    getCardsById
+    getCardsById,
+    deleteCardById
 };

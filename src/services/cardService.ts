@@ -52,10 +52,18 @@ const getCards = async (cardId: number | undefined, authorization: string | unde
     return cards;
 };
 
+const deleteCard = async (cardId: number, authorization: string | undefined) => {
+    const {id: userId} = await validateToken(authorization);
 
+    const { count } = await cardRepository.deleteCardById(userId, cardId);
 
+    if (count === 0) {
+        throw { code: "NotFound", message: "Cartão não existente e/ou pertencente a outro usuario" }
+    };
+};
 
 export {
     createCard,
-    getCards
+    getCards,
+    deleteCard
 };

@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum CardType {
+  debit
+  credit
+  both
+}
+
 model cards {
   id             Int     @id @default(autoincrement())
   userId         Int
@@ -17,7 +23,7 @@ model cards {
   expirationDate String
   password       String
   isVitual       Boolean
-  type           String  @db.VarChar(8)
+  type           CardType
   users          users   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cards_userid_foreign")
 
   @@unique([userId, title])

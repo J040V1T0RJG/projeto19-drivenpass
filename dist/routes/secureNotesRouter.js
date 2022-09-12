@@ -22,23 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importStar(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const cors_1 = __importDefault(require("cors"));
-require("express-async-errors");
-const index_1 = __importDefault(require("./routes/index"));
-const errorHandlerMiddleware_1 = require("./middlewares/errorHandlerMiddleware");
-dotenv_1.default.config();
-const app = (0, express_1.default)();
-app.use((0, express_1.json)());
-app.use((0, cors_1.default)());
-app.use(index_1.default);
-app.use(errorHandlerMiddleware_1.errorHandler);
-const PORT = Number(process.env.PORT) || 4000;
-app.listen(PORT, () => {
-    console.log(`Server is up on port: ${PORT}`);
-});
+const express_1 = require("express");
+const secureNotesController = __importStar(require("../controllers/secureNotesController"));
+const secureNotesMiddleware = __importStar(require("../middlewares/secureNotesMiddleware"));
+const secureNotesRouter = (0, express_1.Router)();
+secureNotesRouter.post("/secure-notes/create", secureNotesMiddleware.validateCreateSecureNotes, secureNotesController.createSecureNotes);
+secureNotesRouter.get("/secure-notes", secureNotesController.getSecureNotes);
+secureNotesRouter.delete("/secure-notes/:secureNotesId/delete", secureNotesController.deleteSecureNotes);
+exports.default = secureNotesRouter;

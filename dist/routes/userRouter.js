@@ -22,23 +22,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importStar(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const cors_1 = __importDefault(require("cors"));
-require("express-async-errors");
-const index_1 = __importDefault(require("./routes/index"));
-const errorHandlerMiddleware_1 = require("./middlewares/errorHandlerMiddleware");
-dotenv_1.default.config();
-const app = (0, express_1.default)();
-app.use((0, express_1.json)());
-app.use((0, cors_1.default)());
-app.use(index_1.default);
-app.use(errorHandlerMiddleware_1.errorHandler);
-const PORT = Number(process.env.PORT) || 4000;
-app.listen(PORT, () => {
-    console.log(`Server is up on port: ${PORT}`);
-});
+const express_1 = require("express");
+const userController = __importStar(require("../controllers/userController"));
+const userMiddleware = __importStar(require("../middlewares/userMiddleware"));
+const userRouter = (0, express_1.Router)();
+userRouter.post("/sign-in", userMiddleware.validateSignIn, userController.signIn);
+userRouter.post("/sign-up", userMiddleware.validateSignUp, userController.signUp);
+exports.default = userRouter;
